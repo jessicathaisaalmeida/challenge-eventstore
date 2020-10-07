@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ArrayListIterator implements EventIterator {
+public class InMemoryEventIterator implements EventIterator {
     private List<Event> list;
     private AtomicInteger position = new AtomicInteger(-1);
     private AtomicBoolean movedNext = new AtomicBoolean(true);
 
-    public ArrayListIterator(List<Event> list) {
+    public InMemoryEventIterator(List<Event> list) {
         this.list = list;
     }
 
@@ -60,8 +60,10 @@ public class ArrayListIterator implements EventIterator {
      */
     @Override
     public void remove() {
-        if (position.get() >= 0 && movedNext.get())
+        if (position.get() >= 0 && movedNext.get()) {
             list.remove(position.get());
+            position.decrementAndGet();
+        }
         else
             throw new IllegalStateException();
     }

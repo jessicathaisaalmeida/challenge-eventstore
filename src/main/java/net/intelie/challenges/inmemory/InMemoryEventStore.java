@@ -5,13 +5,11 @@ import net.intelie.challenges.EventIterator;
 import net.intelie.challenges.EventStore;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class InMemoryEventStore implements EventStore {
 
@@ -95,6 +93,6 @@ public class InMemoryEventStore implements EventStore {
                 .filter(e -> e.timestamp() >= startTime && e.timestamp() < endTime)
                 .collect(Collectors.toList());
 
-        return new ArrayListIterator(theEvents);
+        return new InMemoryEventIterator(theEvents);
     }
 }

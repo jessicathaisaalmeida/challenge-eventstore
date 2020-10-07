@@ -5,10 +5,12 @@ import net.intelie.challenges.EventIterator;
 import net.intelie.challenges.EventStore;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class InMemoryEventStore implements EventStore {
 
@@ -65,6 +67,13 @@ public class InMemoryEventStore implements EventStore {
     @Override
     public void removeAll(String type) {
 
+        synchronized (events) {
+            if(events.get(type) != null) {
+                size.addAndGet(events.get(type).size() * -1);
+                events.get(type).clear();
+                events.remove(type);
+            }
+        }
     }
 
     /**

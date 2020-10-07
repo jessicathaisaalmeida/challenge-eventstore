@@ -30,13 +30,10 @@ public class InMemoryEventStore implements EventStore {
     }
 
     public void printEvents(){
-        System.out.println("----------------------------------------");
         events.forEach((eventType, theEvents) -> {
-            System.out.println(">>> " + eventType);
             theEvents.forEach((event) -> {
-                System.out.println("Ev " + event.timestamp());
+                System.out.println(event);
             });
-            System.out.println("----------------------------------------");
         });
     }
 
@@ -88,10 +85,10 @@ public class InMemoryEventStore implements EventStore {
         List<Event> theEvents = null;
 
         if(events.containsKey(type))
-        theEvents = events.get(type)
-                .stream()
-                .filter(e -> e.timestamp() >= startTime && e.timestamp() < endTime)
-                .collect(Collectors.toList());
+            theEvents = events.get(type)
+                    .stream()
+                    .filter(e -> e.timestamp() >= startTime && e.timestamp() < endTime)
+                    .collect(Collectors.toList());
 
         return new InMemoryEventIterator(theEvents);
     }

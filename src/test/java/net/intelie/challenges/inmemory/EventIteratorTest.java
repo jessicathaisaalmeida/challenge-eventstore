@@ -1,5 +1,7 @@
-package net.intelie.challenges;
+package net.intelie.challenges.inmemory;
 
+import net.intelie.challenges.Event;
+import net.intelie.challenges.EventIterator;
 import net.intelie.challenges.inmemory.InMemoryEventIterator;
 import net.intelie.challenges.inmemory.InMemoryEventStore;
 import org.junit.Test;
@@ -36,6 +38,15 @@ public class EventIteratorTest {
     public void shouldThrowsIllegalStateExceptionWhenGetCurrentOfHadNotMovedList() throws Exception {
         EventIterator iterator = new InMemoryEventIterator(basicList());
         iterator.current();
+    }
+
+    @Test
+    public void shouldMoveToNextElementIfItExists() throws Exception {
+        EventIterator iterator = new InMemoryEventIterator(basicList());
+        iterator.moveNext();
+        assertEquals(0, iterator.current().timestamp());
+        iterator.moveNext();
+        assertEquals(2, iterator.current().timestamp());
     }
 
     @Test
@@ -77,6 +88,14 @@ public class EventIteratorTest {
         while(iterator.moveNext())
             iterator.remove();
         assertEquals(0, events.size());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldThrowsIllegalStateExceptionWhenRemoveEventWithoutPreviousMoveNext() throws Exception {
+        List<Event> events = basicList();
+        EventIterator iterator = new InMemoryEventIterator(events);
+
+        iterator.remove();
     }
 
     @Test(expected = IllegalStateException.class)

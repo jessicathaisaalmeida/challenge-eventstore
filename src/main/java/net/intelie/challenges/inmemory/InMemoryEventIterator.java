@@ -3,7 +3,6 @@ package net.intelie.challenges.inmemory;
 import net.intelie.challenges.Event;
 import net.intelie.challenges.EventIterator;
 
-import java.io.Closeable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;

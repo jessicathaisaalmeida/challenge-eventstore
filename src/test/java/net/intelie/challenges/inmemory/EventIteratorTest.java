@@ -2,8 +2,6 @@ package net.intelie.challenges.inmemory;
 
 import net.intelie.challenges.Event;
 import net.intelie.challenges.EventIterator;
-import net.intelie.challenges.inmemory.InMemoryEventIterator;
-import net.intelie.challenges.inmemory.InMemoryEventStore;
 import org.junit.Test;
 
 import java.util.ArrayList;

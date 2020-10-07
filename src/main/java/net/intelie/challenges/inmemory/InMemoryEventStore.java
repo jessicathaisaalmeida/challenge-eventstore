@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class InMemoryEventStore implements EventStore {
 
@@ -51,7 +52,7 @@ public class InMemoryEventStore implements EventStore {
         //SYNCHRONIZED usage in order to prevent multiple access to
         //the test if the event type is not registered yet
         synchronized (events) {
-            if(events.get(event.type()) == null)
+            if(!events.containsKey(event.type()))
             events.put(event.type(), Collections.synchronizedList(new ArrayList()));
         }
 
@@ -66,12 +67,10 @@ public class InMemoryEventStore implements EventStore {
      */
     @Override
     public void removeAll(String type) {
-
         synchronized (events) {
-            if(events.get(type) != null) {
+            if(events.containsKey(type)) {
                 size.addAndGet(events.get(type).size() * -1);
                 events.get(type).clear();
-                events.remove(type);
             }
         }
     }
@@ -88,6 +87,14 @@ public class InMemoryEventStore implements EventStore {
      */
     @Override
     public EventIterator query(String type, long startTime, long endTime) {
-        return null;
+        List<Event> theEvents = null;
+
+        if(events.containsKey(type))
+        theEvents = events.get(type)
+                .stream()
+                .filter(e -> e.timestamp() >= startTime && e.timestamp() < endTime)
+                .collect(Collectors.toList());
+
+        return new ArrayListIterator(theEvents);
     }
 }

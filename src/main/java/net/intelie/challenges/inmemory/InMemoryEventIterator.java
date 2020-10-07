@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * An implementation of a EventIterator for an in memory EventStore using Lists
+ */
 public class InMemoryEventIterator implements EventIterator {
     private List<Event> list;
     private AtomicInteger position = new AtomicInteger(-1);

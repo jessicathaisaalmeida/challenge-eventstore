@@ -11,6 +11,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+/**
+ * An implementation of an in memory EventStore
+ */
 public class InMemoryEventStore implements EventStore {
 
     private ConcurrentHashMap<String, List<Event>> events;

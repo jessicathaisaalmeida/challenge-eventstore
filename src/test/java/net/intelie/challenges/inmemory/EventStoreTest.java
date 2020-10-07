@@ -27,7 +27,7 @@ public class EventStoreTest {
     }
 
     @Test
-    public void shouldDeleteASingleEvent() throws Exception {
+    public void shouldRemoveAllEventsWhenThereIsASingleEvent() throws Exception {
         InMemoryEventStore store = new InMemoryEventStore();
         Event event = new Event("some_type", 123L);
         store.insert(event);
@@ -79,7 +79,7 @@ public class EventStoreTest {
     }
 
     @Test
-    public void shouldDeleteAllEventsOfEachType() throws Exception {
+    public void shouldRemoveAllEventsOfEachType() throws Exception {
         int numberOfThreads = 10;
         String[] types = {"type_a","type_b","type_c"};
         InMemoryEventStore store = preFilledConcurrentlyAStore(numberOfThreads, types);
@@ -102,7 +102,7 @@ public class EventStoreTest {
     }
 
     @Test
-    public void shouldNotFailWhenDeletingAnAbsentType() throws Exception {
+    public void shouldNotFailWhenRemovingAllEventsOfAnAbsentType() throws Exception {
         InMemoryEventStore store = new InMemoryEventStore();
 
         //THIS IS A SEVERAL DELETION:
